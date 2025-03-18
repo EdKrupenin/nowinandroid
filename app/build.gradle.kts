@@ -35,7 +35,8 @@ android {
         versionName = "0.1.2" // X.Y.Z; X = Major, Y = minor, Z = Patch level
 
         // Custom test runner to set up Hilt dependency graph
-        testInstrumentationRunner = "com.google.samples.apps.nowinandroid.core.testing.NiaTestRunner"
+        //testInstrumentationRunner = "com.google.samples.apps.nowinandroid.core.testing.NiaTestRunner"
+        testInstrumentationRunner = "com.kaspersky.kaspresso.runner.KaspressoRunner"
     }
 
     buildTypes {
@@ -103,6 +104,7 @@ dependencies {
     implementation(libs.kotlinx.coroutines.guava)
     implementation(libs.coil.kt)
     implementation(libs.kotlinx.serialization.json)
+    implementation(libs.material)
 
     ksp(libs.hilt.compiler)
 
@@ -126,10 +128,17 @@ dependencies {
     androidTestImplementation(projects.core.testing)
     androidTestImplementation(projects.core.dataTest)
     androidTestImplementation(projects.core.datastoreTest)
-    androidTestImplementation(libs.androidx.test.espresso.core)
+    //androidTestImplementation(libs.androidx.test.espresso.core)
     androidTestImplementation(libs.androidx.compose.ui.test)
     androidTestImplementation(libs.hilt.android.testing)
     androidTestImplementation(libs.kotlin.test)
+
+    androidTestImplementation(libs.kaspresso.compose.support){
+        exclude(module = "protobuf-lite")
+    }
+    androidTestImplementation(libs.kaspresso){
+        exclude(module = "protobuf-lite")
+    }
 
     baselineProfile(projects.benchmarks)
 }
