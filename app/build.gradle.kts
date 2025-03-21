@@ -37,6 +37,11 @@ android {
         // Custom test runner to set up Hilt dependency graph
         //testInstrumentationRunner = "com.google.samples.apps.nowinandroid.core.testing.NiaTestRunner"
         testInstrumentationRunner = "com.kaspersky.kaspresso.runner.KaspressoRunner"
+        testInstrumentationRunnerArguments["clearPackageData"] = "true"
+
+    }
+    testOptions {
+        execution = "ANDROIDX_TEST_ORCHESTRATOR"
     }
 
     buildTypes {
@@ -139,6 +144,8 @@ dependencies {
     androidTestImplementation(libs.kaspresso){
         exclude(module = "protobuf-lite")
     }
+    androidTestImplementation(libs.compose)
+
 
     baselineProfile(projects.benchmarks)
 }

@@ -22,20 +22,36 @@ import com.google.samples.apps.nowinandroid.ui.homeworks.homework15.screen.MainS
 import com.kaspersky.components.composesupport.config.withComposeSupport
 import com.kaspersky.kaspresso.kaspresso.Kaspresso
 import com.kaspersky.kaspresso.testcases.api.testcase.TestCase
+import io.github.kakaocup.compose.node.element.ComposeScreen.Companion.onComposeScreen
+import io.github.kakaocup.compose.rule.KakaoComposeTestRule
 import org.junit.Rule
 import org.junit.Test
 
 class MainScreenTest : TestCase(Kaspresso.Builder.withComposeSupport()) {
-
     @get:Rule
     val composeTestRule = createAndroidComposeRule<MainActivity>()
-    val mainScreen = MainScreen(composeTestRule)
+
+    @get:Rule
+    val kakaoComposeTestRule = KakaoComposeTestRule(
+        semanticsProvider = composeTestRule,
+        useUnmergedTree = true,
+    )
 
     @Test
     fun checkButtonText() = run {
         step("Check button") {
-            mainScreen {
+            onComposeScreen<MainScreen> {
                 doneButton.assertTextContains("Done")
+            }
+        }
+        step("Check top bar title text"){
+            onComposeScreen<MainScreen> {
+                topBarTitle.assertTextEquals("Now in Android")
+            }
+        }
+        step("Click to navigationIcon"){
+            onComposeScreen<MainScreen> {
+                navigationIcon.performClick()
             }
         }
     }

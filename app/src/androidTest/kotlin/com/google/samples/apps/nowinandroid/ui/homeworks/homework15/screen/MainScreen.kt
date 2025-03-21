@@ -20,9 +20,17 @@ import androidx.compose.ui.test.SemanticsNodeInteractionsProvider
 import io.github.kakaocup.compose.node.element.ComposeScreen
 import io.github.kakaocup.compose.node.element.KNode
 
-class MainScreen(semanticsProvider: SemanticsNodeInteractionsProvider) :
+class MainScreen(semanticsProvider: SemanticsNodeInteractionsProvider? = null) :
     ComposeScreen<MainScreen>(semanticsProvider) {
-        val doneButton = KNode(semanticsProvider){
-            hasText("Done")
-        }
+    val doneButton = KNode(semanticsProvider) {
+        hasText("Done")
+    }
+    val topBarTitle = child<KNode> {
+        hasTestTag("NiaTopAppBarTitle")
+    }
+
+    val navigationIcon = child<KNode> {
+        hasParent(androidx.compose.ui.test.hasTestTag("niaTopAppBar"))
+        hasPosition(2)
+    }
 }
