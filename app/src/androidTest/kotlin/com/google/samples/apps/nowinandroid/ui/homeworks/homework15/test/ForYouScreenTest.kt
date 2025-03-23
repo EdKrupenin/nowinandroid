@@ -107,13 +107,19 @@ class ForYouScreenTest : TestCase(Kaspresso.Builder.withComposeSupport()) {
         }
     }
 
+    private val mainPageObject = ForYouScreen(kakaoComposeTestRule.semanticsProvider)
+
     @Test
     fun checkSearchScreenElements() = run {
-        onComposeScreen<ForYouScreen> {
-            step("Click to Search btn in top app bar") {
-                topAppBarNode.searchBtn.performClick()
-            }
+        mainPageObject.actionss{
+            openSearchScreen()
         }
+//        onComposeScreen<ForYouScreen> {
+//            step("Click to Search btn in top app bar") {
+//                topAppBarNode.searchBtn.performClick()
+//            }
+//        }
+
         onComposeScreen<SearchScreen> {
             step("Check SearchScreen elements") {
                 step("Check back button has click action") {

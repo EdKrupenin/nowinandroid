@@ -20,12 +20,14 @@ import androidx.compose.ui.test.SemanticsNodeInteractionsProvider
 import com.google.samples.apps.nowinandroid.core.designsystem.TestingTag
 import com.google.samples.apps.nowinandroid.ui.homeworks.homework16.node.NavBarNode
 import com.google.samples.apps.nowinandroid.ui.homeworks.homework16.node.TopAppBarNode
+import com.kaspersky.kaspresso.testcases.core.testcontext.TestContext
 import io.github.kakaocup.compose.node.element.ComposeScreen
 import io.github.kakaocup.compose.node.element.KNode
 
 class ForYouScreen(semanticsProvider: SemanticsNodeInteractionsProvider? = null) :
     ComposeScreen<ForYouScreen>(semanticsProvider) {
-//    val checks = Checks()
+    val checks = Checks()
+    val actionss = Actions()
 
     val topAppBarNode: TopAppBarNode = child {
         hasTestTag(TestingTag.NIA_TOP_APP_BAR)
@@ -47,7 +49,15 @@ class ForYouScreen(semanticsProvider: SemanticsNodeInteractionsProvider? = null)
         hasTestTag(TestingTag.NIA_NAV_BAR)
     }
 
-//    inner class Checks : PageObjectIntentions<Checks>() {
-//
-//    }
+    inner class Checks : PageObjectIntentions<Checks>() {
+
+    }
+
+    inner class Actions : PageObjectIntentions<Actions>() {
+        fun TestContext<*>.openSearchScreen() {
+            step("Open search screen") {
+                topAppBarNode.searchBtn.performClick()
+            }
+        }
+    }
 }
