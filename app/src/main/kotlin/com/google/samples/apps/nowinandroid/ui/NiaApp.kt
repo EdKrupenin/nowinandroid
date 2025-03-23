@@ -62,6 +62,7 @@ import androidx.navigation.NavDestination
 import androidx.navigation.NavDestination.Companion.hasRoute
 import androidx.navigation.NavDestination.Companion.hierarchy
 import com.google.samples.apps.nowinandroid.R
+import com.google.samples.apps.nowinandroid.core.designsystem.TestingTag
 import com.google.samples.apps.nowinandroid.core.designsystem.component.NiaBackground
 import com.google.samples.apps.nowinandroid.core.designsystem.component.NiaGradientBackground
 import com.google.samples.apps.nowinandroid.core.designsystem.component.NiaNavigationSuiteScaffold
@@ -168,7 +169,7 @@ internal fun NiaApp(
                     label = { Text(stringResource(destination.iconTextId)) },
                     modifier =
                     Modifier
-                        .testTag("NiaNavItem")
+                        .testTag(TestingTag.NIA_NAV_ITEM)
                         .then(if (hasUnread) Modifier.notificationDot() else Modifier),
                 )
             }

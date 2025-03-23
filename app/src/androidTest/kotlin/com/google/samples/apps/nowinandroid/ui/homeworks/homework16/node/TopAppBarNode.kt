@@ -14,23 +14,26 @@
  * limitations under the License.
  */
 
-package com.google.samples.apps.nowinandroid.ui.homeworks.homework15.screen
+package com.google.samples.apps.nowinandroid.ui.homeworks.homework16.node
 
 import androidx.compose.ui.test.SemanticsNodeInteractionsProvider
-import io.github.kakaocup.compose.node.element.ComposeScreen
+import com.google.samples.apps.nowinandroid.core.designsystem.TestingTag
+import io.github.kakaocup.compose.node.builder.NodeMatcher
+import io.github.kakaocup.compose.node.core.BaseNode
 import io.github.kakaocup.compose.node.element.KNode
 
-class MainScreen(semanticsProvider: SemanticsNodeInteractionsProvider? = null) :
-    ComposeScreen<MainScreen>(semanticsProvider) {
-    val doneButton = KNode(semanticsProvider) {
-        hasText("Done")
+class TopAppBarNode(
+    semanticsProvider: SemanticsNodeInteractionsProvider?,
+    nodeMatcher: NodeMatcher,
+    parentNode: BaseNode<*>? = null,
+) : BaseNode<TopAppBarNode>(semanticsProvider, nodeMatcher, parentNode) {
+    val title: KNode = child {
+        hasTestTag(TestingTag.NIA_TOP_APP_BAR_TITLE)
     }
-    val topBarTitle = child<KNode> {
-        hasTestTag("NiaTopAppBarTitle")
+    val searchBtn: KNode = child {
+        hasTestTag(TestingTag.NIA_TOP_APP_BAR_SEARCH)
     }
-
-    val navigationIcon = child<KNode> {
-        hasParent(androidx.compose.ui.test.hasTestTag("niaTopAppBar"))
-        hasPosition(2)
+    val settingsBtn: KNode = child {
+        hasTestTag(TestingTag.NIA_TOP_APP_BAR_SETTINGS)
     }
 }

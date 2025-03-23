@@ -38,7 +38,9 @@ import androidx.compose.material3.adaptive.navigationsuite.NavigationSuiteScope
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.unit.dp
+import com.google.samples.apps.nowinandroid.core.designsystem.TestingTag
 import com.google.samples.apps.nowinandroid.core.designsystem.icon.NiaIcons
 import com.google.samples.apps.nowinandroid.core.designsystem.theme.NiaTheme
 
@@ -227,7 +229,7 @@ fun NiaNavigationSuiteScaffold(
             navigationBarContentColor = NiaNavigationDefaults.navigationContentColor(),
             navigationRailContainerColor = Color.Transparent,
         ),
-        modifier = modifier,
+        modifier = modifier.testTag(TestingTag.NIA_NAV_BAR),
     ) {
         content()
     }

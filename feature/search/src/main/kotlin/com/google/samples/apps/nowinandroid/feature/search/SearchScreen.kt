@@ -80,6 +80,7 @@ import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.google.samples.apps.nowinandroid.core.designsystem.TestingTag
 import com.google.samples.apps.nowinandroid.core.designsystem.component.scrollbar.DraggableScrollbar
 import com.google.samples.apps.nowinandroid.core.designsystem.component.scrollbar.rememberDraggableScroller
 import com.google.samples.apps.nowinandroid.core.designsystem.component.scrollbar.scrollbarState
@@ -147,15 +148,16 @@ internal fun SearchScreen(
             onSearchQueryChanged = onSearchQueryChanged,
             onSearchTriggered = onSearchTriggered,
             searchQuery = searchQuery,
+            modifier = Modifier.testTag(TestingTag.SEARCH_TOOLBAR)
         )
         when (searchResultUiState) {
             SearchResultUiState.Loading,
             SearchResultUiState.LoadFailed,
-            -> Unit
+                -> Unit
 
             SearchResultUiState.SearchNotReady -> SearchNotReadyBody()
             SearchResultUiState.EmptyQuery,
-            -> {
+                -> {
                 if (recentSearchesUiState is RecentSearchQueriesUiState.Success) {
                     RecentSearchesBody(
                         onClearRecentSearches = onClearRecentSearches,
@@ -211,7 +213,8 @@ fun EmptySearchResultBody(
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = Modifier.padding(horizontal = 48.dp),
     ) {
-        val message = stringResource(id = searchR.string.feature_search_result_not_found, searchQuery)
+        val message =
+            stringResource(id = searchR.string.feature_search_result_not_found, searchQuery)
         val start = message.indexOf(searchQuery)
         Text(
             text = AnnotatedString(
@@ -451,7 +454,10 @@ private fun SearchToolbar(
         verticalAlignment = Alignment.CenterVertically,
         modifier = modifier.fillMaxWidth(),
     ) {
-        IconButton(onClick = { onBackClick() }) {
+        IconButton(
+            onClick = { onBackClick() },
+            modifier = Modifier.testTag(TestingTag.SEARCH_TOOLBAR_BACK_BTN),
+        ) {
             Icon(
                 imageVector = NiaIcons.ArrowBack,
                 contentDescription = stringResource(
@@ -502,6 +508,7 @@ private fun SearchTextField(
                     onClick = {
                         onSearchQueryChanged("")
                     },
+                    modifier = Modifier.testTag(TestingTag.SEARCH_TEXT_FIELD_CLEAR_BTN),
                 ) {
                     Icon(
                         imageVector = NiaIcons.Close,
@@ -529,7 +536,7 @@ private fun SearchTextField(
                     false
                 }
             }
-            .testTag("searchTextField"),
+            .testTag(TestingTag.SEARCH_TEXT_FIELD_TEXT_FIELD),
         shape = RoundedCornerShape(32.dp),
         value = searchQuery,
         keyboardOptions = KeyboardOptions(
