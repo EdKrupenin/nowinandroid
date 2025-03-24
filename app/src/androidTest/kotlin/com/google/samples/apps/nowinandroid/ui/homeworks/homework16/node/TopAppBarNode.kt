@@ -16,8 +16,11 @@
 
 package com.google.samples.apps.nowinandroid.ui.homeworks.homework16.node
 
+import androidx.annotation.StringRes
 import androidx.compose.ui.test.SemanticsNodeInteractionsProvider
 import com.google.samples.apps.nowinandroid.core.designsystem.TestingTag
+import com.google.samples.apps.nowinandroid.ui.homeworks.homework15.base.PageObjectIntentions
+import com.kaspersky.kaspresso.testcases.core.testcontext.TestContext
 import io.github.kakaocup.compose.node.builder.NodeMatcher
 import io.github.kakaocup.compose.node.core.BaseNode
 import io.github.kakaocup.compose.node.element.KNode
@@ -27,6 +30,9 @@ class TopAppBarNode(
     nodeMatcher: NodeMatcher,
     parentNode: BaseNode<*>? = null,
 ) : BaseNode<TopAppBarNode>(semanticsProvider, nodeMatcher, parentNode) {
+    val actions = Actions()
+    val checks = Checks()
+
     val title: KNode = child {
         hasTestTag(TestingTag.NIA_TOP_APP_BAR_TITLE)
     }
@@ -35,5 +41,37 @@ class TopAppBarNode(
     }
     val settingsBtn: KNode = child {
         hasTestTag(TestingTag.NIA_TOP_APP_BAR_SETTINGS)
+    }
+
+    inner class Checks : PageObjectIntentions<Checks>() {
+        fun TestContext<*>.checkSearchBtn() {
+            step("Check search btn") {
+                searchBtn.assertIsDisplayed()
+                searchBtn.assertHasClickAction()
+            }
+        }
+
+        fun TestContext<*>.checkSettingsBtn() {
+            step("Check settings btn") {
+                settingsBtn.assertIsDisplayed()
+                searchBtn.assertHasClickAction()
+            }
+        }
+
+        fun TestContext<*>.checkTopAppBarTitle(
+            @StringRes vararg values: Int,
+        ) {
+            step("Check title text") {
+                title.assertTextEquals(*values)
+            }
+        }
+    }
+
+    inner class Actions : PageObjectIntentions<Actions>() {
+        fun TestContext<*>.openSearchScreen() {
+            step("Open search screen") {
+                searchBtn.performClick()
+            }
+        }
     }
 }

@@ -16,8 +16,11 @@
 
 package com.google.samples.apps.nowinandroid.ui.homeworks.homework16.node
 
+import androidx.annotation.StringRes
 import androidx.compose.ui.test.SemanticsNodeInteractionsProvider
 import com.google.samples.apps.nowinandroid.core.designsystem.TestingTag
+import com.google.samples.apps.nowinandroid.ui.homeworks.homework15.base.PageObjectIntentions
+import com.kaspersky.kaspresso.testcases.core.testcontext.TestContext
 import io.github.kakaocup.compose.node.builder.NodeMatcher
 import io.github.kakaocup.compose.node.core.BaseNode
 import io.github.kakaocup.compose.node.element.KNode
@@ -31,6 +34,8 @@ class NavBarNode(
     nodeMatcher: NodeMatcher,
     parentNode: BaseNode<*>? = null,
 ) : BaseNode<NavBarNode>(semanticsProvider, nodeMatcher, parentNode) {
+    val checks = Checks()
+
     val forYouTab: KNode = child {
         hasTestTag(TestingTag.NIA_NAV_ITEM)
         hasAnyChild(
@@ -60,5 +65,34 @@ class NavBarNode(
                 ignoreCase = false,
             ),
         )
+    }
+
+    inner class Checks : PageObjectIntentions<Checks>() {
+        fun TestContext<*>.checkForYouTab(@StringRes resId: Int) {
+            step("Check For you tab") {
+                val childNode: KNode = forYouTab.child {
+                    hasText(resId)
+                }
+                childNode.assertExists()
+            }
+        }
+
+        fun TestContext<*>.checkSavedTab(@StringRes resId: Int) {
+            step("Check Saved tab") {
+                val childNode: KNode = savedTab.child {
+                    hasText(resId)
+                }
+                childNode.assertExists()
+            }
+        }
+
+        fun TestContext<*>.checkInterestsTab(@StringRes resId: Int) {
+            step("Check Interest tab") {
+                val childNode: KNode = interestsTab.child {
+                    hasText(resId)
+                }
+                childNode.assertExists()
+            }
+        }
     }
 }

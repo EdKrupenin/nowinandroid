@@ -14,17 +14,10 @@
  * limitations under the License.
  */
 
-package com.google.samples.apps.nowinandroid.ui.homeworks.homework15.screen
-
-import com.kaspersky.kaspresso.testcases.core.testcontext.TestContext
+package com.google.samples.apps.nowinandroid.ui.homeworks.homework15.base
 
 open class PageObjectIntentions<T : PageObjectIntentions<T>> {
-    operator fun invoke(block: T.() -> Unit) {
-        apply(block)
-    }
-
-    private fun apply(block: T.() -> Unit) {
-        block(this as T)
-    }
+    @Suppress("UNCHECKED_CAST")
+    operator fun invoke(block: T.() -> Unit) = block.invoke(this as T)
 }
 

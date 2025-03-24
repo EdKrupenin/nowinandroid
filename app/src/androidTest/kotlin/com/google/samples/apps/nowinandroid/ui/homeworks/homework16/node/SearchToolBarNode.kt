@@ -18,6 +18,8 @@ package com.google.samples.apps.nowinandroid.ui.homeworks.homework16.node
 
 import androidx.compose.ui.test.SemanticsNodeInteractionsProvider
 import com.google.samples.apps.nowinandroid.core.designsystem.TestingTag
+import com.google.samples.apps.nowinandroid.ui.homeworks.homework15.base.PageObjectIntentions
+import com.kaspersky.kaspresso.testcases.core.testcontext.TestContext
 import io.github.kakaocup.compose.node.builder.NodeMatcher
 import io.github.kakaocup.compose.node.core.BaseNode
 import io.github.kakaocup.compose.node.element.KNode
@@ -25,17 +27,62 @@ import io.github.kakaocup.compose.node.element.KNode
 class SearchToolBarNode(
     semanticsProvider: SemanticsNodeInteractionsProvider?,
     nodeMatcher: NodeMatcher?,
-    parentNode: BaseNode<*>? = null
+    parentNode: BaseNode<*>? = null,
 ) : BaseNode<SearchToolBarNode>(semanticsProvider, nodeMatcher, parentNode) {
-    val backBtn : KNode = child {
+    val actions = Actions()
+    val checks = Checks()
+
+    val backBtn: KNode = child {
         hasTestTag(TestingTag.SEARCH_TOOLBAR_BACK_BTN)
     }
 
-    val textField : KNode = child {
+    val textField: KNode = child {
         hasTestTag(TestingTag.SEARCH_TEXT_FIELD_TEXT_FIELD)
     }
 
-    val clearBtn : KNode = child {
+    val clearBtn: KNode = child {
         hasTestTag(TestingTag.SEARCH_TEXT_FIELD_CLEAR_BTN)
+    }
+
+    inner class Checks : PageObjectIntentions<Checks>() {
+        fun TestContext<*>.checkBackBtn() {
+            step("Check back button has click action") {
+                backBtn.assertIsDisplayed()
+                backBtn.assertHasClickAction()
+            }
+        }
+
+        fun TestContext<*>.checkTextField() {
+            step("Check search input field is displayed") {
+                textField.assertIsDisplayed()
+            }
+        }
+
+        fun TestContext<*>.checkClearBtn() {
+            step("Check clear button") {
+                clearBtn.assertIsDisplayed()
+                clearBtn.assertHasClickAction()
+            }
+        }
+    }
+
+    inner class Actions : PageObjectIntentions<Actions>() {
+        fun TestContext<*>.typeTextInput(textInput: String) {
+            step("Type text $textInput in search field") {
+                textField.performTextInput(textInput)
+            }
+        }
+
+        fun TestContext<*>.clearBtnClick() {
+            step("Click clear button") {
+                clearBtn.performClick()
+            }
+        }
+
+        fun TestContext<*>.backBtnClick() {
+            step("Click back button") {
+                backBtn.performClick()
+            }
+        }
     }
 }

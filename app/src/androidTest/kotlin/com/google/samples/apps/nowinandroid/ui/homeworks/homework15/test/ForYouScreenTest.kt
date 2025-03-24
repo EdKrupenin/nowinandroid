@@ -16,32 +16,18 @@
 
 package com.google.samples.apps.nowinandroid.ui.homeworks.homework15.test
 
-import androidx.compose.ui.test.junit4.createAndroidComposeRule
-import com.google.samples.apps.nowinandroid.MainActivity
 import com.google.samples.apps.nowinandroid.R
+import com.google.samples.apps.nowinandroid.ui.homeworks.homework15.base.BaseTestCase
 import com.google.samples.apps.nowinandroid.feature.foryou.R as forYouR
 import com.google.samples.apps.nowinandroid.feature.search.R as searchR
 import com.google.samples.apps.nowinandroid.feature.bookmarks.R as bookmarksR
 import com.google.samples.apps.nowinandroid.ui.homeworks.homework15.screen.ForYouScreen
 import com.google.samples.apps.nowinandroid.ui.homeworks.homework16.screen.SearchScreen
-import com.kaspersky.components.composesupport.config.withComposeSupport
-import com.kaspersky.kaspresso.kaspresso.Kaspresso
-import com.kaspersky.kaspresso.testcases.api.testcase.TestCase
 import io.github.kakaocup.compose.node.element.ComposeScreen.Companion.onComposeScreen
-import io.github.kakaocup.compose.node.element.KNode
-import io.github.kakaocup.compose.rule.KakaoComposeTestRule
 import org.junit.Before
-import org.junit.Rule
 import org.junit.Test
 
-class ForYouScreenTest : TestCase(Kaspresso.Builder.withComposeSupport()) {
-    @get:Rule val composeTestRule = createAndroidComposeRule<MainActivity>()
-
-    @get:Rule val kakaoComposeTestRule = KakaoComposeTestRule(
-        semanticsProvider = composeTestRule,
-        useUnmergedTree = true,
-    )
-
+class ForYouScreenTest : BaseTestCase() {
     @Before
     fun allowPermissions() {
         device.permissions.allowViaDialog()
@@ -51,99 +37,53 @@ class ForYouScreenTest : TestCase(Kaspresso.Builder.withComposeSupport()) {
     fun checkForYouScreenElements() = run {
         onComposeScreen<ForYouScreen> {
             step("Check top app bar") {
-                step("Check search btn") {
-                    topAppBarNode.searchBtn.assertIsDisplayed()
-                    topAppBarNode.searchBtn.assertHasClickAction()
-                }
-                step("Check text") {
-                    topAppBarNode.title.assertTextEquals(R.string.app_name)
-                }
-                step("Check settings btn") {
-                    topAppBarNode.settingsBtn.assertIsDisplayed()
-                    topAppBarNode.searchBtn.assertHasClickAction()
+                topAppBarNode.checks {
+                    checkSearchBtn()
+                    checkSettingsBtn()
+                    checkTopAppBarTitle(R.string.app_name)
                 }
             }
-            step("Check title") {
-                title {
-                    assertIsDisplayed()
-                    assertTextEquals(forYouR.string.feature_foryou_onboarding_guidance_title)
+            step("Check For You screen") {
+                checks {
+                    checkTitleText(forYouR.string.feature_foryou_onboarding_guidance_title)
+                    checkSubtitleText(forYouR.string.feature_foryou_onboarding_guidance_subtitle)
+                    checkDoneBtn(forYouR.string.feature_foryou_done)
                 }
-            }
-            step("Check subtitle") {
-                subTitle {
-                    assertIsDisplayed()
-                    assertTextEquals(forYouR.string.feature_foryou_onboarding_guidance_subtitle)
-                }
-            }
-            step("Check button") {
-                doneBtn.assertHasClickAction()
-                val childNode: KNode = doneBtn.child {
-                    hasText(forYouR.string.feature_foryou_done)
-                }
-                childNode.assertExists()
             }
             step("Check bottom nav bar") {
-                navBarNode {
-                    step("Check For you tab") {
-                        val childNode: KNode = forYouTab.child {
-                            hasText(forYouR.string.feature_foryou_title)
-                        }
-                        childNode.assertExists()
-                    }
-                    step("Check Saved tab") {
-                        val childNode: KNode = savedTab.child {
-                            hasText(bookmarksR.string.feature_bookmarks_title)
-                        }
-                        childNode.assertExists()
-                    }
-                    step("Check Interest tab") {
-                        val childNode: KNode = interestsTab.child {
-                            hasText(searchR.string.feature_search_interests)
-                        }
-                        childNode.assertExists()
-                    }
+                navBarNode.checks {
+                    checkForYouTab(forYouR.string.feature_foryou_title)
+                    checkSavedTab(bookmarksR.string.feature_bookmarks_title)
+                    checkInterestsTab(searchR.string.feature_search_interests)
+
                 }
             }
         }
     }
 
-    private val mainPageObject = ForYouScreen(kakaoComposeTestRule.semanticsProvider)
-
     @Test
     fun checkSearchScreenElements() = run {
-        mainPageObject.actionss{
-            openSearchScreen()
+        onComposeScreen<ForYouScreen> {
+            topAppBarNode.actions {
+                openSearchScreen()
+            }
         }
-//        onComposeScreen<ForYouScreen> {
-//            step("Click to Search btn in top app bar") {
-//                topAppBarNode.searchBtn.performClick()
-//            }
-//        }
-
         onComposeScreen<SearchScreen> {
-            step("Check SearchScreen elements") {
-                step("Check back button has click action") {
-                    searchToolBarNode.backBtn.assertHasClickAction()
+            searchToolBarNode {
+                checks {
+                    checkBackBtn()
+                    checkTextField()
                 }
-                step("Check search input field is displayed") {
-                    searchToolBarNode.textField.assertIsDisplayed()
+                actions {
+                    typeTextInput("compose")
                 }
-            }
-
-            step("Type text 'compose' in search field") {
-                searchToolBarNode.textField.performTextInput("compose")
-            }
-
-            step("Check clear button has click action") {
-                searchToolBarNode.clearBtn.assertHasClickAction()
-            }
-
-            step("Click clear button") {
-                searchToolBarNode.clearBtn.performClick()
-            }
-
-            step("Click back button") {
-                searchToolBarNode.backBtn.performClick()
+                checks {
+                    checkClearBtn()
+                }
+                actions {
+                    clearBtnClick()
+                    backBtnClick()
+                }
             }
         }
     }
