@@ -22,6 +22,7 @@ import com.kaspersky.components.composesupport.config.withComposeSupport
 import com.kaspersky.kaspresso.kaspresso.Kaspresso
 import com.kaspersky.kaspresso.testcases.api.testcase.TestCase
 import io.github.kakaocup.compose.rule.KakaoComposeTestRule
+import org.junit.Before
 import org.junit.Rule
 
 open class BaseTestCase : TestCase(Kaspresso.Builder.withComposeSupport()) {
@@ -31,4 +32,9 @@ open class BaseTestCase : TestCase(Kaspresso.Builder.withComposeSupport()) {
         semanticsProvider = composeTestRule,
         useUnmergedTree = true,
     )
+
+    @Before
+    open fun allowPermissions() {
+        device.permissions.allowViaDialog()
+    }
 }

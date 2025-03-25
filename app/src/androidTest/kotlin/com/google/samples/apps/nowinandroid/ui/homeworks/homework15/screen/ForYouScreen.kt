@@ -17,7 +17,9 @@
 package com.google.samples.apps.nowinandroid.ui.homeworks.homework15.screen
 
 import androidx.annotation.StringRes
+import androidx.compose.ui.test.SemanticsMatcher
 import androidx.compose.ui.test.SemanticsNodeInteractionsProvider
+import androidx.compose.ui.test.junit4.ComposeTestRule
 import com.google.samples.apps.nowinandroid.core.designsystem.TestingTag
 import com.google.samples.apps.nowinandroid.ui.homeworks.homework15.base.PageObjectIntentions
 import com.google.samples.apps.nowinandroid.ui.homeworks.homework16.node.NavBarNode
@@ -26,8 +28,9 @@ import com.kaspersky.kaspresso.testcases.core.testcontext.TestContext
 import io.github.kakaocup.compose.node.element.ComposeScreen
 import io.github.kakaocup.compose.node.element.KNode
 
-class ForYouScreen(semanticsProvider: SemanticsNodeInteractionsProvider? = null) :
-    ComposeScreen<ForYouScreen>(semanticsProvider) {
+class ForYouScreen(
+    semanticsProvider: SemanticsNodeInteractionsProvider? = defaultRule) :
+    ComposeScreen<ForYouScreen>(semanticsProvider = semanticsProvider) {
     val checks = Checks()
 
     val topAppBarNode: TopAppBarNode = child {
@@ -59,6 +62,7 @@ class ForYouScreen(semanticsProvider: SemanticsNodeInteractionsProvider? = null)
                 }
             }
         }
+
         fun TestContext<*>.checkSubtitleText(@StringRes vararg values: Int) {
             step("Check subtitle") {
                 subTitle {
@@ -67,13 +71,32 @@ class ForYouScreen(semanticsProvider: SemanticsNodeInteractionsProvider? = null)
                 }
             }
         }
-        fun TestContext<*>.checkDoneBtn(@StringRes values: Int){
+
+        fun TestContext<*>.checkDoneBtn(@StringRes values: Int) {
             step("Check button") {
                 doneBtn.assertHasClickAction()
                 val childNode: KNode = doneBtn.child {
                     hasText(values)
                 }
                 childNode.assertExists()
+            }
+        }
+    }
+
+    companion object {
+        private var defaultRule: SemanticsNodeInteractionsProvider? = null
+
+        fun initRule(composeTestRule: ComposeTestRule) {
+            defaultRule = object : SemanticsNodeInteractionsProvider {
+                override fun onNode(
+                    matcher: SemanticsMatcher,
+                    useUnmergedTree: Boolean
+                ) = composeTestRule.onNode(matcher, useUnmergedTree = true)
+
+                override fun onAllNodes(
+                    matcher: SemanticsMatcher,
+                    useUnmergedTree: Boolean
+                ) = composeTestRule.onAllNodes(matcher, useUnmergedTree = true)
             }
         }
     }

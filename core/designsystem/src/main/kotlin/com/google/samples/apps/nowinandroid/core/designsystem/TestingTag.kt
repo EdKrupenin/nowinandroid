@@ -30,4 +30,7 @@ object TestingTag {
     const val SEARCH_TOOLBAR_BACK_BTN = "SearchToolbarBackBtn"
     const val SEARCH_TEXT_FIELD_TEXT_FIELD = "SearchTextFieldTextField"
     const val SEARCH_TEXT_FIELD_CLEAR_BTN = "SearchTextFieldClearBtn"
+    object Button {
+        const val BUTTON_DONE = "ButtonDone"
+    }
 }

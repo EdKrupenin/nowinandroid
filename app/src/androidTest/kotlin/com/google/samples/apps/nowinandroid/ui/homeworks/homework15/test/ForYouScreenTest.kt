@@ -29,13 +29,14 @@ import org.junit.Test
 
 class ForYouScreenTest : BaseTestCase() {
     @Before
-    fun allowPermissions() {
-        device.permissions.allowViaDialog()
+    fun init() {
+        ForYouScreen.initRule(composeTestRule)
     }
 
     @Test
     fun checkForYouScreenElements() = run {
-        onComposeScreen<ForYouScreen> {
+        val mainScreenPO = ForYouScreen()
+        mainScreenPO {
             step("Check top app bar") {
                 topAppBarNode.checks {
                     checkSearchBtn()
