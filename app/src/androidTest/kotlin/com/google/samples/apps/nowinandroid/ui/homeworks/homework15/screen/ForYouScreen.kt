@@ -20,18 +20,23 @@ import androidx.annotation.StringRes
 import androidx.compose.ui.test.SemanticsMatcher
 import androidx.compose.ui.test.SemanticsNodeInteractionsProvider
 import androidx.compose.ui.test.junit4.ComposeTestRule
+import com.google.samples.apps.nowinandroid.core.designsystem.LazyListItemPositionSemantics
+import com.google.samples.apps.nowinandroid.core.designsystem.LazyListLengthSemantics
 import com.google.samples.apps.nowinandroid.core.designsystem.TestingTag
 import com.google.samples.apps.nowinandroid.ui.homeworks.homework15.base.PageObjectIntentions
+import com.google.samples.apps.nowinandroid.ui.homeworks.homework16.items.SingleTopicButton
 import com.google.samples.apps.nowinandroid.ui.homeworks.homework16.node.NavBarNode
 import com.google.samples.apps.nowinandroid.ui.homeworks.homework16.node.TopAppBarNode
 import com.kaspersky.kaspresso.testcases.core.testcontext.TestContext
 import io.github.kakaocup.compose.node.element.ComposeScreen
 import io.github.kakaocup.compose.node.element.KNode
+import io.github.kakaocup.compose.node.element.list.KListNode
 
 class ForYouScreen(
-    semanticsProvider: SemanticsNodeInteractionsProvider? = defaultRule) :
-    ComposeScreen<ForYouScreen>(semanticsProvider = semanticsProvider) {
+    semanticsProvider: SemanticsNodeInteractionsProvider? = defaultRule,
+) : ComposeScreen<ForYouScreen>(semanticsProvider = semanticsProvider) {
     val checks = Checks()
+    val actions = Action()
 
     val topAppBarNode: TopAppBarNode = child {
         hasTestTag(TestingTag.NIA_TOP_APP_BAR)
@@ -45,12 +50,30 @@ class ForYouScreen(
         hasTestTag(TestingTag.FOR_YOU_SCREEN_SUBTITLE)
     }
 
+    val topicSelection = KListNode(
+        testTag = TestingTag.List.TOPIC_SELECTION,
+        itemIndexSemanticsPropertyKey = LazyListItemPositionSemantics,
+        lengthSemanticsPropertyKey = LazyListLengthSemantics,
+    )
+
     val doneBtn: KNode = child {
         hasTestTag(TestingTag.FOR_YOU_SCREEN_DONE_BTN)
     }
 
     val navBarNode: NavBarNode = child {
         hasTestTag(TestingTag.NIA_NAV_BAR)
+    }
+
+    inner class Action : PageObjectIntentions<Action>() {
+        fun TestContext<*>.performClickOnItemWithTitle(text: String) {
+            step("Клик на абстрактный элемент списка с заголовком (text: '$text')") {
+                topicSelection.childWith<SingleTopicButton>(
+                    { hasAnyDescendant(androidx.compose.ui.test.hasTextExactly(text)) },
+                ) {
+                    iconToggleButton.performClick()
+                }
+            }
+        }
     }
 
     inner class Checks : PageObjectIntentions<Checks>() {
@@ -90,12 +113,12 @@ class ForYouScreen(
             defaultRule = object : SemanticsNodeInteractionsProvider {
                 override fun onNode(
                     matcher: SemanticsMatcher,
-                    useUnmergedTree: Boolean
+                    useUnmergedTree: Boolean,
                 ) = composeTestRule.onNode(matcher, useUnmergedTree = true)
 
                 override fun onAllNodes(
                     matcher: SemanticsMatcher,
-                    useUnmergedTree: Boolean
+                    useUnmergedTree: Boolean,
                 ) = composeTestRule.onAllNodes(matcher, useUnmergedTree = true)
             }
         }

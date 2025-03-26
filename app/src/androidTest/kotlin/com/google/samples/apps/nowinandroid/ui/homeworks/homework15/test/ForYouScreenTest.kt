@@ -88,4 +88,15 @@ class ForYouScreenTest : BaseTestCase() {
             }
         }
     }
+
+    @Test
+    fun checkTopicList() = run {
+        val mainScreenPO = ForYouScreen()
+        mainScreenPO {
+            topicSelection.assertIsDisplayed()
+            actions{
+                performClickOnItemWithTitle("UI")
+            }
+        }
+    }
 }

@@ -16,6 +16,9 @@
 
 package com.google.samples.apps.nowinandroid.core.designsystem
 
+import androidx.compose.ui.semantics.SemanticsPropertyKey
+import androidx.compose.ui.semantics.SemanticsPropertyReceiver
+
 object TestingTag {
     const val NIA_TOP_APP_BAR = "niaTopAppBar"
     const val NIA_TOP_APP_BAR_TITLE = "NiaTopAppBarTitle"
@@ -32,5 +35,21 @@ object TestingTag {
     const val SEARCH_TEXT_FIELD_CLEAR_BTN = "SearchTextFieldClearBtn"
     object Button {
         const val BUTTON_DONE = "ButtonDone"
+        const val SINGLE_TOPIC_BUTTON = "SingleTopicButton"
+        const val NIA_ICON_TOGGLE_BUTTON = "NiaIconToggleButton"
     }
+    object List {
+        const val TOPIC_SELECTION = "forYou:topicSelection"
+        const val FOR_YOU_FEED = "forYou:feed"
+    }
+    const val NEWS_RESOURCE_TITLE = "NewsResourceTitle"
+    const val NEWS_RESOURCE_CARD_EXPANDED = "NewsResourceCardExpanded"
+    const val TOPIC_ICON =" TopicIcon"
+    const val SINGLE_TOPIC_BUTTON_TEXT ="SINGLE_TOPIC_BUTTON_TEXT"
 }
+
+val LazyListItemPositionSemantics = SemanticsPropertyKey<Int>("LazyListItemPosition")
+var SemanticsPropertyReceiver.lazyListItemPosition by LazyListItemPositionSemantics
+
+val LazyListLengthSemantics = SemanticsPropertyKey<Int>("LazyListLength")
+var SemanticsPropertyReceiver.lazyListLength by LazyListLengthSemantics

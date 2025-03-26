@@ -67,6 +67,8 @@ import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImagePainter
 import coil.compose.rememberAsyncImagePainter
 import com.google.samples.apps.nowinandroid.core.designsystem.R.drawable
+import com.google.samples.apps.nowinandroid.core.designsystem.TestingTag.NEWS_RESOURCE_CARD_EXPANDED
+import com.google.samples.apps.nowinandroid.core.designsystem.TestingTag.NEWS_RESOURCE_TITLE
 import com.google.samples.apps.nowinandroid.core.designsystem.component.NiaIconToggleButton
 import com.google.samples.apps.nowinandroid.core.designsystem.component.NiaTopicTag
 import com.google.samples.apps.nowinandroid.core.designsystem.icon.NiaIcons
@@ -120,7 +122,7 @@ fun NewsResourceCardExpanded(
             .semantics {
                 onClick(label = clickActionLabel, action = null)
             }
-            .testTag("newsResourceCard:${userNewsResource.id}"),
+            .testTag(NEWS_RESOURCE_CARD_EXPANDED),
     ) {
         Column {
             if (!userNewsResource.headerImageUrl.isNullOrEmpty()) {
@@ -227,7 +229,7 @@ fun NewsResourceTitle(
     newsResourceTitle: String,
     modifier: Modifier = Modifier,
 ) {
-    Text(newsResourceTitle, style = MaterialTheme.typography.headlineSmall, modifier = modifier)
+    Text(newsResourceTitle, style = MaterialTheme.typography.headlineSmall, modifier = modifier.testTag(NEWS_RESOURCE_TITLE))
 }
 
 @Composable
