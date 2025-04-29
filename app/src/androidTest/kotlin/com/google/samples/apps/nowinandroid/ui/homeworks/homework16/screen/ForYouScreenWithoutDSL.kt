@@ -22,28 +22,36 @@ import com.google.samples.apps.nowinandroid.core.designsystem.LazyListItemPositi
 import com.google.samples.apps.nowinandroid.core.designsystem.LazyListLengthSemantics
 import com.google.samples.apps.nowinandroid.core.designsystem.TestingTag
 import com.google.samples.apps.nowinandroid.core.designsystem.TestingTag.List.FOR_YOU_FEED
+import com.google.samples.apps.nowinandroid.ui.homeworks.homework25.extentions.NamedComposeScreen
 import com.google.samples.apps.nowinandroid.ui.homeworks.homework16.items.ForYouOnboardingNode
 import com.google.samples.apps.nowinandroid.ui.homeworks.homework16.items.ForYouNewsFeedNode
 import com.google.samples.apps.nowinandroid.ui.homeworks.homework16.node.NavBarNode
 import com.google.samples.apps.nowinandroid.ui.homeworks.homework16.node.TopAppBarNode
-import io.github.kakaocup.compose.node.element.ComposeScreen
 import io.github.kakaocup.compose.node.element.lazylist.KLazyListNode
 
 class ForYouScreenWithoutDSL(
     semanticsProvider: SemanticsNodeInteractionsProvider? = null,
-) : ComposeScreen<ForYouScreenWithoutDSL>(semanticsProvider) {
+) : NamedComposeScreen<ForYouScreenWithoutDSL>(semanticsProvider) {
+
+    override val screenName: String = "ForYouScreen"
+
     val topAppBarNode: TopAppBarNode = child {
         hasTestTag(TestingTag.NIA_TOP_APP_BAR)
     }
 
     val grid = KLazyListNode(
         semanticsProvider = semanticsProvider,
-        viewBuilderAction = { hasTestTag(FOR_YOU_FEED)},
+        viewBuilderAction = { hasTestTag(FOR_YOU_FEED) },
         itemTypeBuilder = {
             itemType(::ForYouOnboardingNode)
             itemType(::ForYouNewsFeedNode)
         },
-        positionMatcher = { position -> SemanticsMatcher.expectValue(LazyListItemPositionSemantics, position) },
+        positionMatcher = { position ->
+            SemanticsMatcher.expectValue(
+                LazyListItemPositionSemantics,
+                position,
+            )
+        },
         lengthSemanticsPropertyKey = LazyListLengthSemantics,
     )
 

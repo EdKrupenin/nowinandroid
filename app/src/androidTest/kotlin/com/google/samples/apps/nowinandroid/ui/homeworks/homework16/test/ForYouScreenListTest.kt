@@ -16,15 +16,21 @@
 
 package com.google.samples.apps.nowinandroid.ui.homeworks.homework16.test
 
+import androidx.compose.ui.semantics.SemanticsProperties
+import androidx.compose.ui.semantics.getOrNull
 import androidx.compose.ui.test.ExperimentalTestApi
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
+import androidx.lifecycle.AtomicReference
 import com.google.samples.apps.nowinandroid.MainActivity
 import com.google.samples.apps.nowinandroid.R
+import com.google.samples.apps.nowinandroid.ui.homeworks.homework25.extentions.action
+import com.google.samples.apps.nowinandroid.ui.homeworks.homework25.extentions.getText
 import com.google.samples.apps.nowinandroid.ui.homeworks.homework16.items.ForYouNewsFeedNode
 import com.google.samples.apps.nowinandroid.feature.foryou.R as forYouR
 import com.google.samples.apps.nowinandroid.feature.search.R as searchR
 import com.google.samples.apps.nowinandroid.feature.bookmarks.R as bookmarksR
 import com.google.samples.apps.nowinandroid.ui.homeworks.homework16.items.ForYouOnboardingNode
+import com.google.samples.apps.nowinandroid.ui.homeworks.homework16.items.SingleTopicButton
 import com.google.samples.apps.nowinandroid.ui.homeworks.homework16.screen.ForYouScreenWithoutDSL
 import com.kaspersky.components.composesupport.config.withComposeSupport
 import com.kaspersky.kaspresso.kaspresso.Kaspresso
@@ -38,6 +44,16 @@ import org.junit.Test
 
 class ForYouScreenListTest : TestCase(Kaspresso.Builder.withComposeSupport()) {
     @get:Rule val composeTestRule = createAndroidComposeRule<MainActivity>()
+
+//    @get:Rule val activityScenarioRule = ActivityScenarioRule(MainActivity::class.java)
+//
+//    @get:Rule val subCompose = AndroidComposeTestRule(activityScenarioRule) {
+//        val activityMain = AtomicReference<MainActivity>()
+//        activityScenarioRule.scenario.onActivity{
+//            activityMain.set(it)
+//        }
+//        activityMain.get()
+//    }
 
     @get:Rule val kakaoComposeTestRule = KakaoComposeTestRule(
         semanticsProvider = composeTestRule,
@@ -53,11 +69,26 @@ class ForYouScreenListTest : TestCase(Kaspresso.Builder.withComposeSupport()) {
     @Test
     fun checkElementOnScreen() = run {
         onComposeScreen<ForYouScreenWithoutDSL> {
+            val settingsBtnText = AtomicReference<List<String>>()
+            action {
+                click(topAppBarNode.settingsBtn)
+                extract(topAppBarNode.settingsBtn, settingsBtnText) {
+                    getText()
+                }
+            }
+
             step("Check top app bar") {
                 topAppBarNode {
                     step("Check search btn") {
                         searchBtn.assertIsDisplayed()
                         searchBtn.assertHasClickAction()
+                        searchBtn
+                            .delegate
+                            .interaction
+                            .semanticsNodeInteraction
+                            .fetchSemanticsNode("Достать текст из кнопки")
+                            .config
+                            .getOrNull(SemanticsProperties.Text)
                     }
                     step("Check title text") {
                         title.assertTextEquals(R.string.app_name)
@@ -129,6 +160,9 @@ class ForYouScreenListTest : TestCase(Kaspresso.Builder.withComposeSupport()) {
                 childAt<ForYouOnboardingNode>(0) {
                     step("Click to topic") {
                         topicSelection {
+                            childAt<SingleTopicButton>(1) {
+                                performClick()
+                            }
                             firstItem { performClick() }
                         }
                     }
