@@ -19,6 +19,8 @@ package com.google.samples.apps.nowinandroid.ui.homeworks.homework16.node
 import androidx.compose.ui.test.SemanticsNodeInteractionsProvider
 import com.google.samples.apps.nowinandroid.core.designsystem.TestingTag
 import com.google.samples.apps.nowinandroid.ui.homeworks.homework15.base.PageObjectIntentions
+import com.google.samples.apps.nowinandroid.ui.homeworks.homework25.extentions.name
+import com.google.samples.apps.nowinandroid.ui.homeworks.homework25.extentions.withParent
 import com.kaspersky.kaspresso.testcases.core.testcontext.TestContext
 import io.github.kakaocup.compose.node.builder.NodeMatcher
 import io.github.kakaocup.compose.node.core.BaseNode
@@ -32,16 +34,22 @@ class SearchToolBarNode(
     val actions = Actions()
     val checks = Checks()
 
-    val backBtn: KNode = child {
-        hasTestTag(TestingTag.SEARCH_TOOLBAR_BACK_BTN)
+    val backBtn by lazy {
+        child<KNode> {
+            hasTestTag(TestingTag.SEARCH_TOOLBAR_BACK_BTN)
+        }.name(withParent("backBtn"))
     }
 
-    val textField: KNode = child {
-        hasTestTag(TestingTag.SEARCH_TEXT_FIELD_TEXT_FIELD)
+    val textField by lazy {
+        child<KNode> {
+            hasTestTag(TestingTag.SEARCH_TEXT_FIELD_TEXT_FIELD)
+        }.name(withParent("textField"))
     }
 
-    val clearBtn: KNode = child {
-        hasTestTag(TestingTag.SEARCH_TEXT_FIELD_CLEAR_BTN)
+    val clearBtn by lazy {
+        child<KNode> {
+            hasTestTag(TestingTag.SEARCH_TEXT_FIELD_CLEAR_BTN)
+        }.name(withParent("clearBtn"))
     }
 
     inner class Checks : PageObjectIntentions<Checks>() {

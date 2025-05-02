@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.google.samples.apps.nowinandroid.ui.homeworks.homework16.screen
+package com.google.samples.apps.nowinandroid.ui.homeworks.homework25
 
 import androidx.compose.ui.test.SemanticsMatcher
 import androidx.compose.ui.test.SemanticsNodeInteractionsProvider
@@ -22,26 +22,28 @@ import com.google.samples.apps.nowinandroid.core.designsystem.LazyListItemPositi
 import com.google.samples.apps.nowinandroid.core.designsystem.LazyListLengthSemantics
 import com.google.samples.apps.nowinandroid.core.designsystem.TestingTag
 import com.google.samples.apps.nowinandroid.core.designsystem.TestingTag.List.FOR_YOU_FEED
-import com.google.samples.apps.nowinandroid.ui.homeworks.homework25.extentions.NamedComposeScreen
-import com.google.samples.apps.nowinandroid.ui.homeworks.homework16.items.ForYouOnboardingNode
 import com.google.samples.apps.nowinandroid.ui.homeworks.homework16.items.ForYouNewsFeedNode
+import com.google.samples.apps.nowinandroid.ui.homeworks.homework16.items.ForYouOnboardingNode
 import com.google.samples.apps.nowinandroid.ui.homeworks.homework16.node.NavBarNode
 import com.google.samples.apps.nowinandroid.ui.homeworks.homework16.node.TopAppBarNode
+import com.google.samples.apps.nowinandroid.ui.homeworks.homework25.extentions.NamedComposeScreen
+import com.google.samples.apps.nowinandroid.ui.homeworks.homework25.extentions.invokeChildAtIndex
+import com.google.samples.apps.nowinandroid.ui.homeworks.homework25.extentions.invokeFirstChild
 import com.google.samples.apps.nowinandroid.ui.homeworks.homework25.extentions.name
 import io.github.kakaocup.compose.node.element.lazylist.KLazyListNode
 
-class ForYouScreenWithoutDSL(
+class NamedForYouScreen(
     semanticsProvider: SemanticsNodeInteractionsProvider? = null,
-) : NamedComposeScreen<ForYouScreenWithoutDSL>(semanticsProvider) {
+) : NamedComposeScreen<NamedForYouScreen>(semanticsProvider) {
+    override val screenName: String = "NamedForYoyScreen"
 
-    override val screenName: String = "ForYouScreen"
-
-    val topAppBarNode =
+    val topAppBarNode by lazy {
         child<TopAppBarNode> {
             hasTestTag(TestingTag.NIA_TOP_APP_BAR)
-        }
+        }.name(withParent("Top App Bar"))
+    }
 
-    val grid =
+    val grid by lazy {
         KLazyListNode(
             semanticsProvider = semanticsProvider,
             viewBuilderAction = { hasTestTag(FOR_YOU_FEED) },
@@ -56,9 +58,20 @@ class ForYouScreenWithoutDSL(
                 )
             },
             lengthSemanticsPropertyKey = LazyListLengthSemantics,
-        )
+        ).name(withParent("Feed"))
+    }
 
-    val navBarNode = child<NavBarNode> {
-        hasTestTag(TestingTag.NIA_NAV_BAR)
+    val navBarNode by lazy {
+        child<NavBarNode> {
+            hasTestTag(TestingTag.NIA_NAV_BAR)
+        }.name(withParent("Nav Bar Node"))
+    }
+
+    fun forYouOnboardingNode(function: ForYouOnboardingNode.() -> Unit) {
+        grid.invokeFirstChild(function)
+    }
+
+    fun forYouNewsFeedNode(index: Int, function: ForYouNewsFeedNode.() -> Unit) {
+        grid.invokeChildAtIndex(index, function)
     }
 }

@@ -19,6 +19,8 @@ package com.google.samples.apps.nowinandroid.ui.homeworks.homework16.items
 import com.google.samples.apps.nowinandroid.core.designsystem.TestingTag.Button.NIA_ICON_TOGGLE_BUTTON
 import com.google.samples.apps.nowinandroid.core.designsystem.TestingTag.SINGLE_TOPIC_BUTTON_TEXT
 import com.google.samples.apps.nowinandroid.core.designsystem.TestingTag.TOPIC_ICON
+import com.google.samples.apps.nowinandroid.ui.homeworks.homework25.extentions.name
+import com.google.samples.apps.nowinandroid.ui.homeworks.homework25.extentions.withParent
 import io.github.kakaocup.compose.node.element.KNode
 import io.github.kakaocup.compose.node.element.list.KListItemNode
 
@@ -27,18 +29,18 @@ class SingleTopicButton : KListItemNode<SingleTopicButton>() {
     val icon by lazy {
         KNode{
             hasTestTag(TOPIC_ICON)
-        }
+        }.name(withParent("icon"))
     }
 
     val text by lazy {
         KNode{
             hasTestTag(SINGLE_TOPIC_BUTTON_TEXT)
-        }
+        }.name(withParent("text"))
     }
 
     val iconToggleButton by lazy {
         KNode{
             hasTestTag(NIA_ICON_TOGGLE_BUTTON)
-        }
+        }.name(withParent("iconToggleButton"))
     }
 }

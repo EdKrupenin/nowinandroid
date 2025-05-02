@@ -21,29 +21,44 @@ import androidx.compose.ui.test.SemanticsNodeInteractionsProvider
 import com.google.samples.apps.nowinandroid.core.designsystem.LazyListItemPositionSemantics
 import com.google.samples.apps.nowinandroid.core.designsystem.LazyListLengthSemantics
 import com.google.samples.apps.nowinandroid.core.designsystem.TestingTag
+import com.google.samples.apps.nowinandroid.ui.homeworks.homework25.extentions.invokeChildAtIndex
+import com.google.samples.apps.nowinandroid.ui.homeworks.homework25.extentions.name
+import com.google.samples.apps.nowinandroid.ui.homeworks.homework25.extentions.withParent
 import io.github.kakaocup.compose.node.element.KNode
 import io.github.kakaocup.compose.node.element.lazylist.KLazyListItemNode
 import io.github.kakaocup.compose.node.element.list.KListNode
 
 class ForYouOnboardingNode(
     semanticNode: SemanticsNode,
-    semanticsProvider: SemanticsNodeInteractionsProvider?
+    semanticsProvider: SemanticsNodeInteractionsProvider?,
 ) : KLazyListItemNode<ForYouOnboardingNode>(semanticNode, semanticsProvider) {
-    val title: KNode = child {
-        hasTestTag(TestingTag.FOR_YOU_SCREEN_TITLE)
+    val title by lazy {
+        child<KNode> {
+            hasTestTag(TestingTag.FOR_YOU_SCREEN_TITLE)
+        }.name(withParent("title"))
     }
 
-    val subTitle: KNode = child {
-        hasTestTag(TestingTag.FOR_YOU_SCREEN_SUBTITLE)
+    val subTitle by lazy {
+        child<KNode> {
+            hasTestTag(TestingTag.FOR_YOU_SCREEN_SUBTITLE)
+        }.name(withParent("subTitle"))
     }
 
-    val topicSelection = KListNode(
-        testTag = TestingTag.List.TOPIC_SELECTION,
-        itemIndexSemanticsPropertyKey = LazyListItemPositionSemantics,
-        lengthSemanticsPropertyKey = LazyListLengthSemantics,
-    )
+    val topicSelection by lazy {
+        KListNode(
+            testTag = TestingTag.List.TOPIC_SELECTION,
+            itemIndexSemanticsPropertyKey = LazyListItemPositionSemantics,
+            lengthSemanticsPropertyKey = LazyListLengthSemantics,
+        ).name(withParent("topicSelection"))
+    }
 
-    val doneBtn: KNode = child {
-        hasTestTag(TestingTag.FOR_YOU_SCREEN_DONE_BTN)
+    val doneBtn by lazy {
+        child<KNode> {
+            hasTestTag(TestingTag.FOR_YOU_SCREEN_DONE_BTN)
+        }.name(withParent("doneBtn"))
+    }
+
+    fun singleTopicButton(index: Int, function: SingleTopicButton.() -> Unit) {
+        topicSelection.invokeChildAtIndex(index, function)
     }
 }

@@ -20,13 +20,17 @@ import androidx.compose.ui.semantics.SemanticsNode
 import androidx.compose.ui.test.SemanticsNodeInteractionsProvider
 import com.google.samples.apps.nowinandroid.core.designsystem.TestingTag.NEWS_RESOURCE_CARD_EXPANDED
 import com.google.samples.apps.nowinandroid.ui.homeworks.homework16.node.NewsResourceCardExpandedNode
+import com.google.samples.apps.nowinandroid.ui.homeworks.homework25.extentions.name
+import com.google.samples.apps.nowinandroid.ui.homeworks.homework25.extentions.withParent
 import io.github.kakaocup.compose.node.element.lazylist.KLazyListItemNode
 
 class ForYouNewsFeedNode(
     semanticNode: SemanticsNode,
-    semanticsProvider: SemanticsNodeInteractionsProvider?
+    semanticsProvider: SemanticsNodeInteractionsProvider?,
 ) : KLazyListItemNode<ForYouOnboardingNode>(semanticNode, semanticsProvider) {
-    val card : NewsResourceCardExpandedNode = child{
-        hasTestTag(NEWS_RESOURCE_CARD_EXPANDED)
+    val card by lazy {
+        child<NewsResourceCardExpandedNode> {
+            hasTestTag(NEWS_RESOURCE_CARD_EXPANDED)
+        }.name(withParent("card"))
     }
 }

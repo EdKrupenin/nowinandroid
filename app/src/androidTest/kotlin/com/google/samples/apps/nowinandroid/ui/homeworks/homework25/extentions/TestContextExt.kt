@@ -32,7 +32,7 @@ val TestContext<*>.action: ActionSteps
         } as ActionSteps
     }
 
-val TestContext<*>.cheks: CheckSteps
+val TestContext<*>.check: CheckSteps
     get() {
         val key = CheckSteps::class.java.name + this.hashCode()
         return executorHasMap.getOrPut(key) {

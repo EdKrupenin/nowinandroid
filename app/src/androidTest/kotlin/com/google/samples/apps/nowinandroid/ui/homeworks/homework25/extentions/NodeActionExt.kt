@@ -18,13 +18,15 @@ package com.google.samples.apps.nowinandroid.ui.homeworks.homework25.extentions
 
 import androidx.compose.ui.semantics.SemanticsProperties
 import androidx.compose.ui.semantics.getOrNull
+import com.google.samples.apps.nowinandroid.core.designsystem.LazyListLengthSemantics
 import com.google.samples.apps.nowinandroid.ui.homeworks.homework25.tools.NameHierarchy
 import io.github.kakaocup.compose.node.action.NodeActions
 
 private val weakNameHashMap = mutableMapOf<NodeActions, NameHierarchy>()
 
-fun NodeActions.name(nameHierarchy: NameHierarchy) {
+fun <T : NodeActions> T.name(nameHierarchy: NameHierarchy): T {
     weakNameHashMap[this] = nameHierarchy
+    return this
 }
 
 fun NodeActions.name(): NameHierarchy =
@@ -41,4 +43,13 @@ fun NodeActions.getText(): List<String> {
         .getOrNull(SemanticsProperties.Text)?.map {
             it.text
         } ?: emptyList()
+}
+
+fun NodeActions.getSize(): Int {
+    return this.delegate
+        .interaction
+        .semanticsNodeInteraction
+        .fetchSemanticsNode()
+        .config
+        .getOrNull(LazyListLengthSemantics) ?: 0
 }

@@ -20,6 +20,8 @@ import androidx.annotation.StringRes
 import androidx.compose.ui.test.SemanticsNodeInteractionsProvider
 import com.google.samples.apps.nowinandroid.core.designsystem.TestingTag
 import com.google.samples.apps.nowinandroid.ui.homeworks.homework15.base.PageObjectIntentions
+import com.google.samples.apps.nowinandroid.ui.homeworks.homework25.extentions.name
+import com.google.samples.apps.nowinandroid.ui.homeworks.homework25.extentions.withParent
 import com.kaspersky.kaspresso.testcases.core.testcontext.TestContext
 import io.github.kakaocup.compose.node.builder.NodeMatcher
 import io.github.kakaocup.compose.node.core.BaseNode
@@ -33,14 +35,20 @@ class TopAppBarNode(
     val actions = Actions()
     val checks = Checks()
 
-    val title: KNode = child {
-        hasTestTag(TestingTag.NIA_TOP_APP_BAR_TITLE)
+    val title by lazy {
+        child<KNode> {
+            hasTestTag(TestingTag.NIA_TOP_APP_BAR_TITLE)
+        }.name(withParent("card"))
     }
-    val searchBtn: KNode = child {
-        hasTestTag(TestingTag.NIA_TOP_APP_BAR_SEARCH)
+    val searchBtn by lazy {
+        child<KNode> {
+            hasTestTag(TestingTag.NIA_TOP_APP_BAR_SEARCH)
+        }.name(withParent("card"))
     }
-    val settingsBtn: KNode = child {
-        hasTestTag(TestingTag.NIA_TOP_APP_BAR_SETTINGS)
+    val settingsBtn by lazy {
+        child<KNode> {
+            hasTestTag(TestingTag.NIA_TOP_APP_BAR_SETTINGS)
+        }.name(withParent("card"))
     }
 
     inner class Checks : PageObjectIntentions<Checks>() {

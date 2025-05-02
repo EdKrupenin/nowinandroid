@@ -26,7 +26,7 @@ class StepsExecutor(private val testContext: TestContext<*>) {
     private var nextStepName: String = ""
 
     private fun execute(info: String, actions: (StepInfo) -> Unit) {
-        val stepName = if (nextStepName.isBlank()) info else nextStepName
+        val stepName = nextStepName.ifBlank { info }
         testContext.step(stepName, actions)
         nextStepName = ""
     }
@@ -40,13 +40,23 @@ class StepsExecutor(private val testContext: TestContext<*>) {
             item.performClick()
         }
     }
-
+    // region assertions
     fun checkText(step: String, item: NodeAssertions, expectedText: String) {
         execute(step) {
             item.assertTextEquals(expectedText)
         }
     }
-
+    fun isDisplayed(step: String, item: NodeAssertions) {
+        execute(step) {
+            item.assertIsDisplayed()
+        }
+    }
+    fun hasClickActions(step: String, item: NodeAssertions) {
+        execute(step) {
+            item.assertHasClickAction()
+        }
+    }
+    // endregion
     fun <T> extractSemantic(
         step: String,
         item: NodeActions,

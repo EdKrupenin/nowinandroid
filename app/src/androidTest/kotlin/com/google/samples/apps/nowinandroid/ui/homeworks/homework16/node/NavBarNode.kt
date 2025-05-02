@@ -20,6 +20,8 @@ import androidx.annotation.StringRes
 import androidx.compose.ui.test.SemanticsNodeInteractionsProvider
 import com.google.samples.apps.nowinandroid.core.designsystem.TestingTag
 import com.google.samples.apps.nowinandroid.ui.homeworks.homework15.base.PageObjectIntentions
+import com.google.samples.apps.nowinandroid.ui.homeworks.homework25.extentions.name
+import com.google.samples.apps.nowinandroid.ui.homeworks.homework25.extentions.withParent
 import com.kaspersky.kaspresso.testcases.core.testcontext.TestContext
 import io.github.kakaocup.compose.node.builder.NodeMatcher
 import io.github.kakaocup.compose.node.core.BaseNode
@@ -36,35 +38,41 @@ class NavBarNode(
 ) : BaseNode<NavBarNode>(semanticsProvider, nodeMatcher, parentNode) {
     val checks = Checks()
 
-    val forYouTab: KNode = child {
-        hasTestTag(TestingTag.NIA_NAV_ITEM)
-        hasAnyChild(
-            androidx.compose.ui.test.hasText(
-                getResourceString(forYouR.string.feature_foryou_title),
-                substring = false,
-                ignoreCase = false,
-            ),
-        )
+    val forYouTab by lazy {
+        child<KNode> {
+            hasTestTag(TestingTag.NIA_NAV_ITEM)
+            hasAnyChild(
+                androidx.compose.ui.test.hasText(
+                    getResourceString(forYouR.string.feature_foryou_title),
+                    substring = false,
+                    ignoreCase = false,
+                ),
+            )
+        }.name(withParent("forYouTab"))
     }
-    val savedTab: KNode = child {
-        hasTestTag(TestingTag.NIA_NAV_ITEM)
-        hasAnyChild(
-            androidx.compose.ui.test.hasText(
-                getResourceString(bookmarksR.string.feature_bookmarks_title),
-                substring = false,
-                ignoreCase = false,
-            ),
-        )
+    val savedTab by lazy {
+        child<KNode> {
+            hasTestTag(TestingTag.NIA_NAV_ITEM)
+            hasAnyChild(
+                androidx.compose.ui.test.hasText(
+                    getResourceString(bookmarksR.string.feature_bookmarks_title),
+                    substring = false,
+                    ignoreCase = false,
+                ),
+            )
+        }.name(withParent("savedTab"))
     }
-    val interestsTab: KNode = child {
-        hasTestTag(TestingTag.NIA_NAV_ITEM)
-        hasAnyChild(
-            androidx.compose.ui.test.hasText(
-                getResourceString(searchR.string.feature_search_interests),
-                substring = false,
-                ignoreCase = false,
-            ),
-        )
+    val interestsTab by lazy {
+        child<KNode> {
+            hasTestTag(TestingTag.NIA_NAV_ITEM)
+            hasAnyChild(
+                androidx.compose.ui.test.hasText(
+                    getResourceString(searchR.string.feature_search_interests),
+                    substring = false,
+                    ignoreCase = false,
+                ),
+            )
+        }.name(withParent("interestsTab"))
     }
 
     inner class Checks : PageObjectIntentions<Checks>() {

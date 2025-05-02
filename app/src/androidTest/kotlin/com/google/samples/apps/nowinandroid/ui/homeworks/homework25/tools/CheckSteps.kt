@@ -23,11 +23,25 @@ import io.github.kakaocup.compose.node.assertion.NodeAssertions
 class CheckSteps(private val stepsExecutor: StepsExecutor) : StepsDSL<CheckSteps>() {
     override val self = this
 
-    fun checkText(item: NodeAssertions, expectedText: String) {
+    fun textEQ(item: NodeAssertions, expectedText: String) {
         stepsExecutor.checkText(
             "Проверяет что в ноде '${(item as NodeActions).name()}' установлен текст '$expectedText'",
             item,
             expectedText,
+        )
+    }
+
+    fun isDisplayed(item: NodeAssertions) {
+        stepsExecutor.isDisplayed(
+            "Проверяет нода '${(item as NodeActions).name()}' видна",
+            item,
+        )
+    }
+
+    fun hasClickAction(item: NodeAssertions) {
+        stepsExecutor.hasClickActions(
+            "Проверяет у ноды '${(item as NodeActions).name()}' установлен обработчик клика",
+            item,
         )
     }
 }

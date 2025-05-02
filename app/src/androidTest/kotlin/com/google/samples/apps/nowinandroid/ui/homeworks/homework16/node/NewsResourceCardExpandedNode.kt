@@ -18,6 +18,8 @@ package com.google.samples.apps.nowinandroid.ui.homeworks.homework16.node
 
 import androidx.compose.ui.test.SemanticsNodeInteractionsProvider
 import com.google.samples.apps.nowinandroid.core.designsystem.TestingTag.NEWS_RESOURCE_TITLE
+import com.google.samples.apps.nowinandroid.ui.homeworks.homework25.extentions.name
+import com.google.samples.apps.nowinandroid.ui.homeworks.homework25.extentions.withParent
 import io.github.kakaocup.compose.node.builder.NodeMatcher
 import io.github.kakaocup.compose.node.core.BaseNode
 import io.github.kakaocup.compose.node.element.KNode
@@ -27,7 +29,9 @@ class NewsResourceCardExpandedNode(
     nodeMatcher: NodeMatcher,
     parentNode: BaseNode<*>? = null,
 ) : BaseNode<NewsResourceCardExpandedNode>(semanticsProvider, nodeMatcher, parentNode) {
-    val title: KNode = child {
-        hasTestTag(NEWS_RESOURCE_TITLE)
+    val title by lazy {
+        child<KNode> {
+            hasTestTag(NEWS_RESOURCE_TITLE)
+        }.name(withParent("title"))
     }
 }
