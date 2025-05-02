@@ -428,6 +428,9 @@ private fun SingleTopicButton(
                 modifier = Modifier
                     .padding(horizontal = 12.dp)
                     .weight(1f)
+                    .semantics {
+
+                    }
                     .testTag(SINGLE_TOPIC_BUTTON_TEXT),
                 color = MaterialTheme.colorScheme.onSurface,
             )

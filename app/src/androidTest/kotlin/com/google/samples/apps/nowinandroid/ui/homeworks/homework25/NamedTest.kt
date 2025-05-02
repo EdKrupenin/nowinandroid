@@ -16,8 +16,11 @@
 
 package com.google.samples.apps.nowinandroid.ui.homeworks.homework25
 
+import android.util.Log
+import com.google.samples.apps.nowinandroid.ui.homeworks.homework16.items.SingleTopicButton
 import com.google.samples.apps.nowinandroid.ui.homeworks.homework25.extentions.action
 import com.google.samples.apps.nowinandroid.ui.homeworks.homework25.extentions.check
+import com.google.samples.apps.nowinandroid.ui.homeworks.homework25.extentions.getText
 import com.google.samples.apps.nowinandroid.ui.homeworks.homework25.tools.BaseTest
 import io.github.kakaocup.compose.node.element.ComposeScreen.Companion.onComposeScreen
 import org.junit.Test
@@ -54,10 +57,21 @@ class NamedTest : BaseTest() {
         onComposeScreen<NamedForYouScreen> {
             forYouOnboardingNode {
                 action {
-                    singleTopicButton(1) {
+                    singleTopicButtonByPredicate(4) {
+                        testLogger.i("В 4м элементе ${text.getText()}")
                         click(this)
                     }
-                    topicSelection.firstItem { click(this) }
+                    singleTopicButtonByPredicate(0) {
+                        testLogger.i("В 0м элементе ${text.getText()}")
+                        click(this)
+                    }
+                    singleTopicButtonByPredicate(1) {
+                        testLogger.i("В 1м элементе ${text.getText()}")
+                        click(this)
+                    }
+                    topicSelection.childAt<SingleTopicButton>(4) {
+                        testLogger.i("ТОЧНО В 4м элементе ${text.getText()}")
+                    }
                 }
             }
             forYouNewsFeedNode(1) {

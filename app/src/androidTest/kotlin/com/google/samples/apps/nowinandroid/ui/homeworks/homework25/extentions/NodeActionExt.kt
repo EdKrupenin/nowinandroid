@@ -53,3 +53,12 @@ fun NodeActions.getSize(): Int {
         .config
         .getOrNull(LazyListLengthSemantics) ?: 0
 }
+
+fun NodeActions.hasTestTag(testTag: String): Boolean {
+    return this.delegate
+        .interaction
+        .semanticsNodeInteraction
+        .fetchSemanticsNode()
+        .config
+        .getOrNull(SemanticsProperties.TestTag) == testTag
+}

@@ -21,6 +21,10 @@ import androidx.compose.ui.test.SemanticsNodeInteractionsProvider
 import com.google.samples.apps.nowinandroid.core.designsystem.LazyListItemPositionSemantics
 import com.google.samples.apps.nowinandroid.core.designsystem.LazyListLengthSemantics
 import com.google.samples.apps.nowinandroid.core.designsystem.TestingTag
+import com.google.samples.apps.nowinandroid.core.designsystem.TestingTag.Button.SINGLE_TOPIC_BUTTON
+import com.google.samples.apps.nowinandroid.ui.homeworks.homework25.extentions.getText
+import com.google.samples.apps.nowinandroid.ui.homeworks.homework25.extentions.hasTestTag
+import com.google.samples.apps.nowinandroid.ui.homeworks.homework25.extentions.invokeByPredicate
 import com.google.samples.apps.nowinandroid.ui.homeworks.homework25.extentions.invokeChildAtIndex
 import com.google.samples.apps.nowinandroid.ui.homeworks.homework25.extentions.name
 import com.google.samples.apps.nowinandroid.ui.homeworks.homework25.extentions.withParent
@@ -60,5 +64,17 @@ class ForYouOnboardingNode(
 
     fun singleTopicButton(index: Int, function: SingleTopicButton.() -> Unit) {
         topicSelection.invokeChildAtIndex(index, function)
+    }
+
+    fun singleTopicButtonByPredicate(targetIndex : Int, function: SingleTopicButton.() -> Unit){
+        topicSelection.invokeByPredicate(
+            targetIndex = targetIndex,
+            blockName = "Кнопка singleTopicButton",
+            limiter = 10,
+            predicate = {
+                hasTestTag(SINGLE_TOPIC_BUTTON)
+            },
+            function = function
+        )
     }
 }
